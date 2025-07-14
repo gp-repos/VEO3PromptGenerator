@@ -1,1 +1,673 @@
-<H1>Hello!</H1>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор сценария для YouTube Vlog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #333;
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 900px;
+        }
+        
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: none;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            color: white;
+            padding: 20px;
+            border-bottom: none;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #e3e3e3;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        
+        .btn-success {
+            background: linear-gradient(to right, #28a745, #1e7e34);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        
+        .btn-info {
+            background: linear-gradient(to right, #17a2b8, #117a8b);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover, .btn-success:hover, .btn-info:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary:active, .btn-success:active, .btn-info:active {
+            transform: translateY(-1px);
+        }
+        
+        .result-container {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 200px;
+            position: relative;
+            border-left: 5px solid #3498db;
+        }
+        
+        .result-container textarea {
+            background-color: #f8f9fa;
+            border: none;
+            min-height: 200px;
+            font-size: 16px;
+            resize: none;
+        }
+        
+        .result-container .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .gender-selection .btn-group {
+            width: 100%;
+        }
+        
+        .gender-selection .btn {
+            flex: 1;
+        }
+        
+        .section-title {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .preview-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+            font-style: italic;
+            color: #555;
+            min-height: 80px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .character-icon {
+            font-size: 2.5rem;
+            text-align: center;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .example-btn {
+            cursor: pointer;
+            color: #3498db;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: inline-block;
+        }
+        
+        .btn-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        
+        .btn-container .btn {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .saved-templates {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .template-item {
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .template-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .template-name {
+            font-weight: bold;
+        }
+        
+        .template-meta {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .template-delete {
+            color: #dc3545;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .empty-templates {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center mt-4">
+            <h1 class="text-white"><i class="fas fa-video me-3"></i>Генератор сценария для YouTube Vlog</h1>
+            <p class="text-white">Заполните форму и создайте уникальный сценарий для вашего видео в стиле YouTube Vlog</p>
+        </div>
+        
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="mb-0"><i class="fas fa-clipboard-list me-2"></i>Детали сценария</h3>
+            </div>
+            
+            <div class="card-body">
+                <form id="scriptForm">
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Персонаж <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="character" placeholder="Например: молодая девушка, студент" required>
+                            <div class="example-btn" onclick="document.getElementById('character').value = 'молодая девушка'">Пример: молодая девушка</div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Действие персонажа <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="doing" placeholder="Например: рассказывает историю" required>
+                            <div class="example-btn" onclick="document.getElementById('doing').value = 'рассказывает историю'">Пример: рассказывает историю</div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Место действия <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="location" placeholder="Например: в парке" required>
+                            <div class="example-btn" onclick="document.getElementById('location').value = 'в парке'">Пример: в парке</div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Одежда <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="clothing" placeholder="Например: джинсы и футболка" required>
+                            <div class="example-btn" onclick="document.getElementById('clothing').value = 'джинсы и футболка'">Пример: джинсы и футболка</div>
+                        </div>
+                    </div>
+                    
+                    <h4 class="section-title">Детали персонажа</h4>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3 gender-selection">
+                            <label class="form-label">Пол персонажа <span class="text-danger">*</span></label>
+                            <div class="btn-group" role="group">
+                                <input type="radio" class="btn-check" name="gender" id="male" autocomplete="off" value="male">
+                                <label class="btn btn-outline-primary" for="male"><i class="fas fa-mars me-2"></i>Мужской</label>
+                                
+                                <input type="radio" class="btn-check" name="gender" id="female" autocomplete="off" value="female" checked>
+                                <label class="btn btn-outline-primary" for="female"><i class="fas fa-venus me-2"></i>Женский</label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Действие в кадре <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="action" placeholder="Например: пьет кофе" required>
+                            <div class="example-btn" onclick="document.getElementById('action').value = 'пьет кофе'">Пример: пьет кофе</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label">Описание места <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="locationDescription" rows="2" placeholder="Опишите место действия..." required>На заднем плане видны деревья и детская площадка, светит солнце.</textarea>
+                    </div>
+                    
+                    <h4 class="section-title">Речь и звук</h4>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Тон речи <span class="text-danger">*</span></label>
+                            <select class="form-select" id="tone" required>
+                                <option value="взволнованном" selected>Взволнованном</option>
+                                <option value="нервном">Нервном</option>
+                                <option value="рассерженном">Рассерженном</option>
+                                <option value="спокойном">Спокойном</option>
+                                <option value="энергичном">Энергичном</option>
+                                <option value="таинственном">Таинственном</option>
+                                <option value="романтичном">Романтичном</option>
+                                <option value="напряженном">Напряженном</option>
+                                <option value="радостном">Радостном</option>
+                                <option value="меланхоличном">Меланхоличном</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Фоновые звуки <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="ambientSounds" placeholder="Например: пение птиц, шум улицы" required>
+                            <div class="example-btn" onclick="document.getElementById('ambientSounds').value = 'пение птиц, шум улицы'">Пример: пение птиц, шум улицы</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label">Диалог <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="dialogue" rows="3" placeholder="Что говорит персонаж..." required>Привет всем! Сегодня я хочу рассказать вам интересную историю, которая произошла со мной на прошлой неделе.</textarea>
+                    </div>
+                    
+                    <div class="btn-container">
+                        <button type="button" class="btn btn-primary btn-lg" onclick="generateScript()">
+                            <i class="fas fa-magic me-2"></i>Сгенерировать сценарий
+                        </button>
+                        
+                        <button type="button" class="btn btn-success btn-lg" onclick="saveTemplate()">
+                            <i class="fas fa-save me-2"></i>Сохранить шаблон
+                        </button>
+                        
+                        <div class="file-input-wrapper">
+                            <button type="button" class="btn btn-info btn-lg w-100">
+                                <i class="fas fa-folder-open me-2"></i>Загрузить шаблон
+                            </button>
+                            <input type="file" id="fileInput" accept=".json" onchange="loadTemplate(this)">
+                        </div>
+                    </div>
+                </form>
+                
+                <div class="saved-templates mt-4">
+                    <h4 class="section-title">Сохраненные шаблоны</h4>
+                    <div id="templatesList"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="mb-0"><i class="fas fa-scroll me-2"></i>Результат</h3>
+            </div>
+            
+            <div class="card-body">
+                <div class="result-container">
+                    <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyToClipboard()">
+                        <i class="fas fa-copy me-1"></i> Копировать
+                    </button>
+                    <textarea id="result" class="form-control" readonly></textarea>
+                </div>
+                
+                <div class="mt-4">
+                    <h4 class="section-title">Предпросмотр сценария</h4>
+                    <div class="preview-box">
+                        <div class="character-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div id="previewText">
+                            Заполните форму и нажмите "Сгенерировать сценарий", чтобы увидеть результат здесь.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Генератор сценариев для YouTube Vlog © 2023</p>
+    </footer>
+
+    <script>
+        // Инициализация переменных
+        let savedTemplates = JSON.parse(localStorage.getItem('savedTemplates')) || [];
+        
+        // Генерация сценария
+        function generateScript() {
+            // Проверяем, заполнены ли обязательные поля
+            if (!document.getElementById('character').value || 
+                !document.getElementById('doing').value || 
+                !document.getElementById('location').value || 
+                !document.getElementById('clothing').value || 
+                !document.getElementById('action').value || 
+                !document.getElementById('locationDescription').value || 
+                !document.getElementById('dialogue').value) {
+                alert("Пожалуйста, заполните все обязательные поля!");
+                return;
+            }
+            
+            // Получаем значения из формы
+            const character = document.getElementById('character').value;
+            const doing = document.getElementById('doing').value;
+            const location = document.getElementById('location').value;
+            const clothing = document.getElementById('clothing').value;
+            const action = document.getElementById('action').value;
+            const locationDescription = document.getElementById('locationDescription').value;
+            const tone = document.getElementById('tone').value;
+            const dialogue = document.getElementById('dialogue').value;
+            const ambientSounds = document.getElementById('ambientSounds').value;
+            
+            // Определяем местоимения в зависимости от пола
+            let pronoun, possessive;
+            if (document.getElementById('male').checked) {
+                pronoun = "Он";
+                possessive = "его";
+            } else {
+                pronoun = "Она";
+                possessive = "её";
+            }
+            
+            // Формируем сценарий
+            const script = `A selfie video of a ${character} ${doing} ${location}. ${pronoun} wearing ${clothing}. ${pronoun} holds the camera at arm's length, and ${possessive} arm is clearly visible in the frame. The style is YouTube Vlog like. ${locationDescription}. The character ${action}, occasionally looking into the camera. ${pronoun} speaks in Russian and says in a ${tone} tone: "${dialogue}". No subtitles. Sounds ${ambientSounds}. DO NOT INCLUDE ANY TEXT, CAPTIONS OR SUBTITLES ON SCREEN.`;
+            
+            // Выводим результат
+            document.getElementById('result').value = script;
+            
+            // Обновляем предпросмотр
+            document.getElementById('previewText').innerHTML = `
+                <strong>Персонаж:</strong> ${character}<br>
+                <strong>Действие:</strong> ${doing} ${location}<br>
+                <strong>Одежда:</strong> ${clothing}<br>
+                <strong>Описание места:</strong> ${locationDescription}<br>
+                <strong>Действие в кадре:</strong> ${action}<br>
+                <strong>Тон речи:</strong> ${tone}<br>
+                <strong>Диалог:</strong> "${dialogue}"<br>
+                <strong>Звуки:</strong> ${ambientSounds}
+            `;
+        }
+        
+        // Копирование в буфер обмена
+        function copyToClipboard() {
+            const resultTextarea = document.getElementById('result');
+            if (resultTextarea.value) {
+                resultTextarea.select();
+                document.execCommand('copy');
+                
+                // Показываем подтверждение
+                const copyBtn = document.querySelector('.copy-btn');
+                const originalHtml = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check me-1"></i> Скопировано!';
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHtml;
+                }, 2000);
+            } else {
+                alert("Сначала сгенерируйте сценарий!");
+            }
+        }
+        
+        // Сохранение шаблона
+        function saveTemplate() {
+            const character = document.getElementById('character').value;
+            const doing = document.getElementById('doing').value;
+            const location = document.getElementById('location').value;
+            
+            if (!character || !doing || !location) {
+                alert("Пожалуйста, заполните поля 'Персонаж', 'Действие' и 'Место действия' для сохранения шаблона!");
+                return;
+            }
+            
+            const template = {
+                character: character,
+                doing: doing,
+                location: location,
+                clothing: document.getElementById('clothing').value,
+                action: document.getElementById('action').value,
+                locationDescription: document.getElementById('locationDescription').value,
+                tone: document.getElementById('tone').value,
+                dialogue: document.getElementById('dialogue').value,
+                ambientSounds: document.getElementById('ambientSounds').value,
+                gender: document.querySelector('input[name="gender"]:checked').value
+            };
+            
+            // Проверяем, нет ли уже такого шаблона
+            const templateExists = savedTemplates.some(t => 
+                t.character === template.character && 
+                t.doing === template.doing && 
+                t.location === template.location
+            );
+            
+            if (templateExists) {
+                if (!confirm("Шаблон с таким названием уже существует. Перезаписать?")) {
+                    return;
+                }
+                // Удаляем существующий шаблон
+                savedTemplates = savedTemplates.filter(t => 
+                    !(t.character === template.character && 
+                      t.doing === template.doing && 
+                      t.location === template.location)
+                );
+            }
+            
+            // Добавляем новый шаблон
+            savedTemplates.push(template);
+            
+            // Сохраняем в localStorage
+            localStorage.setItem('savedTemplates', JSON.stringify(savedTemplates));
+            
+            // Обновляем список шаблонов
+            renderTemplates();
+            
+            // Скачиваем файл
+            downloadTemplate(template);
+        }
+        
+        // Скачивание шаблона как JSON файла
+        function downloadTemplate(template) {
+            const filename = `${template.character} ${template.doing} ${template.location}.json`
+                .replace(/[^а-яА-Яa-zA-Z0-9\s]/g, '') // Удаляем спецсимволы
+                .replace(/\s+/g, '_'); // Заменяем пробелы на подчеркивания
+            
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(template, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", filename);
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+            
+            alert(`Шаблон "${filename}" успешно сохранен и скачан!`);
+        }
+        
+        // Загрузка шаблона из файла
+        function loadTemplate(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const template = JSON.parse(e.target.result);
+                    applyTemplate(template);
+                    
+                    // Добавляем в сохраненные шаблоны, если его еще нет
+                    const templateExists = savedTemplates.some(t => 
+                        t.character === template.character && 
+                        t.doing === template.doing && 
+                        t.location === template.location
+                    );
+                    
+                    if (!templateExists) {
+                        savedTemplates.push(template);
+                        localStorage.setItem('savedTemplates', JSON.stringify(savedTemplates));
+                        renderTemplates();
+                    }
+                    
+                    alert(`Шаблон "${template.character} ${template.doing} ${template.location}" успешно загружен!`);
+                } catch (error) {
+                    alert("Ошибка при чтении файла: " + error.message);
+                }
+                
+                // Сбрасываем значение input, чтобы можно было загрузить тот же файл снова
+                input.value = '';
+            };
+            reader.readAsText(file);
+        }
+        
+        // Применение шаблона к форме
+        function applyTemplate(template) {
+            document.getElementById('character').value = template.character || '';
+            document.getElementById('doing').value = template.doing || '';
+            document.getElementById('location').value = template.location || '';
+            document.getElementById('clothing').value = template.clothing || '';
+            document.getElementById('action').value = template.action || '';
+            document.getElementById('locationDescription').value = template.locationDescription || '';
+            document.getElementById('tone').value = template.tone || 'взволнованном';
+            document.getElementById('dialogue').value = template.dialogue || '';
+            document.getElementById('ambientSounds').value = template.ambientSounds || '';
+            
+            // Устанавливаем пол
+            if (template.gender === 'male') {
+                document.getElementById('male').checked = true;
+            } else {
+                document.getElementById('female').checked = true;
+            }
+            
+            // Генерируем сценарий
+            generateScript();
+        }
+        
+        // Отображение сохраненных шаблонов
+        function renderTemplates() {
+            const templatesList = document.getElementById('templatesList');
+            
+            if (savedTemplates.length === 0) {
+                templatesList.innerHTML = `
+                    <div class="empty-templates">
+                        <i class="fas fa-folder-open fa-2x mb-2"></i>
+                        <p>Нет сохраненных шаблонов</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            templatesList.innerHTML = '';
+            
+            savedTemplates.forEach((template, index) => {
+                const templateElement = document.createElement('div');
+                templateElement.className = 'template-item';
+                templateElement.innerHTML = `
+                    <div>
+                        <div class="template-name">${template.character} ${template.doing} ${template.location}</div>
+                        <div class="template-meta">${template.clothing ? 'Одежда: ' + template.clothing : ''} ${template.tone ? '| Тон: ' + template.tone : ''}</div>
+                    </div>
+                    <div>
+                        <span class="template-delete" onclick="deleteTemplate(${index})">
+                            <i class="fas fa-trash"></i>
+                        </span>
+                    </div>
+                `;
+                
+                templateElement.addEventListener('click', (e) => {
+                    if (!e.target.closest('.template-delete')) {
+                        applyTemplate(template);
+                    }
+                });
+                
+                templatesList.appendChild(templateElement);
+            });
+        }
+        
+        // Удаление шаблона
+        function deleteTemplate(index) {
+            if (confirm("Вы уверены, что хотите удалить этот шаблон?")) {
+                savedTemplates.splice(index, 1);
+                localStorage.setItem('savedTemplates', JSON.stringify(savedTemplates));
+                renderTemplates();
+            }
+        }
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('ambientSounds').value = 'пение птиц, шум улицы';
+            renderTemplates();
+        });
+    </script>
+</body>
+</html>
