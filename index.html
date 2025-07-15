@@ -348,8 +348,8 @@
                     </div>
                     
                     <div class="btn-container">
-                        <button type="button" class="btn btn-primary btn-lg" onclick="generateScript()">
-                            <i class="fas fa-magic me-2"></i>Сгенерировать сценарий
+                        <button type="button" class="btn btn-primary btn-lg" onclick="loadTemplate(this)">
+                            <i class="fas fa-folder-open me-2"></i>Загрузить шаблон
                         </button>
                         
                         <button type="button" class="btn btn-success btn-lg" onclick="saveTemplate()">
@@ -358,9 +358,9 @@
                         
                         <div class="file-input-wrapper">
                             <button type="button" class="btn btn-info btn-lg w-100">
-                                <i class="fas fa-folder-open me-2"></i>Загрузить шаблон
+                                <i class="fas fa-magic me-2"></i>Сгенерировать сценарий
                             </button>
-                            <input type="file" id="fileInput" accept=".json" onchange="loadTemplate(this)">
+                            <input type="file" id="fileInput" accept=".json" onchange="generateScript()">
                         </div>
                     </div>
                 </form>
@@ -444,7 +444,7 @@
             }
             
             // Формируем сценарий
-            const script = `A selfie video of a ${character} ${doing} ${location}. ${pronoun} wearing ${clothing}. ${pronoun} holds the camera at arm's length, and ${possessive} arm is clearly visible in the frame. The style is YouTube Vlog like. ${locationDescription}. The character ${action}, occasionally looking into the camera. ${pronoun} speaks in Russian and says in a ${tone} tone: "${dialogue}". No subtitles. Sounds ${ambientSounds}. DO NOT INCLUDE ANY TEXT, CAPTIONS OR SUBTITLES ON SCREEN.`;
+            const script = `A selfie video of a ${character} ${doing} ${location}. ${pronoun} wearing ${clothing}. ${pronoun} holds the camera at arm's length, and ${possessive} arm is clearly visible in the frame. The style is YouTube Vlog like. ${locationDescription}. The character ${action}, occasionally looking into the camera. ${pronoun} says in Russian: "${dialogue}". No subtitles. ${pronoun} has slightly raspy and energetic voice. Background ambient sounds of ${ambientSounds}. DO NOT INCLUDE ANY TEXT, CAPTIONS OR SUBTITLES ON SCREEN.`;
             
             // Выводим результат
             document.getElementById('result').value = script;
